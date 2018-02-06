@@ -60,25 +60,25 @@ class Departure
   end
 
   def to_s
-    @route + ' (-> ' + @destination + ') @ ' + @time.strftime('%H:%M') + ', Stop ' + @stop_position.to_s
+    @route + ' (-> ' + @destination + ') @ ' + @time.getlocal.strftime('%H:%M') + ', Stop ' + @stop_position.to_s
   end
 
   private
 
   def convert_timestr(time)
     timestr = time.to_s
-    now = Time.now
+    now = Time.now.getlocal
 
-    return now if timestr == 'sofort' || timestr == '0'
+    return now.getutc if timestr == 'sofort' || timestr == '0'
 
     if (mtch = /^([1-9]) min$/.match(timestr))
-      return now.advance(minutes: mtch[1].to_i)
+      return now.advance(minutes: mtch[1].to_i).getutc
     end
 
     if (mtch = /^([0-2]?[0-9]):([0-5][0-9])$/.match(timestr))
       resulting_time = now.change(hour: mtch[1].to_i, min: mtch[2].to_i)
       resulting_time += 1.day if resulting_time < now
-      return resulting_time
+      return resulting_time.getutc
     end
 
     nil
