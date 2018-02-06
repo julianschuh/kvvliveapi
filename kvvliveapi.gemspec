@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.homepage      = 'https://github.com/julianschuh/kvvliveapi'
   s.license       = 'MIT'
+
+  s.add_runtime_dependency 'faraday', '~> 0.14.0'
 end

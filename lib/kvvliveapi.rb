@@ -1,4 +1,4 @@
-require 'net/http'
+require 'faraday'
 require 'json'
 require 'uri'
 require 'cgi'
@@ -129,7 +129,8 @@ class KVVAPI
         u.query = URI.encode_www_form(params)
       end
 
-      JSON.parse!(Net::HTTP.get_response(uri).body())
+      response = Faraday.get(uri)
+      JSON.parse!(response.body)
     end
   end
 end
